@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная страница</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Места Японии</div>
+        <h2>Добро пожаловать в обзор</h2>
+    </header>
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Галерея</a></li>
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </nav>
+    <div class="main-content">
+        <article>
+            <section>
+                <h2 id="showAll">Список мест</h2>
+                <ul id="imageList">
+                    <li data-image="resource/image1.jpg">Место 1</li>
+                    <li data-image="resource/image2.jpg">Место 2</li>
+                    <li data-image="resource/image3.jpg">Место 3</li>
+                </ul>
+                <div class="image-container" id="imageContainer">
+                    <img src="resource/image1.jpg" alt="Image 1" id="img1">
+                    <img src="resource/image2.jpg" alt="Image 2" id="img2">
+                    <img src="resource/image3.jpg" alt="Image 3" id="img3">
+                    <img src="resource/default.jpg" alt="Default Image" id="defaultImg" style="display: none;">
+                </div>
+                <div class="controls">
+                    <button id="hideAll">Скрыть все изображения</button>
+                    <button id="showInNewWindow">Показать все изображения в новом окне</button>
+                    <input type="text" id="newItemText" placeholder="Введите новый элемент">
+                    <button id="addNewItem">Добавить в список</button>
+                </div>
+            </section>
+        </article>
+        <aside>
+            <h3>Информация</h3>
+            <p>Вы можете добавить новые изображения популярных мест, скрывать или открывать их по нажатию кнопки.</p>
+        </aside>
+    </div>
+    <footer>
+        <p>&copy; 2025 Туристические места Японии. Все права защищены.</p>
+    </footer>
+</body>
+</html>
