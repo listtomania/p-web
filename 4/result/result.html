@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты опроса</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="result.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Результаты опроса</h1>
+    </header>
+
+    <div class="container">
+        <article>
+            <h2>Ваши данные</h2>
+            <div class="result-box">
+                <table>
+                    <tr><th>Поле</th><th>Значение</th></tr>
+                    <tr><td>Имя</td><td id="resultName"></td></tr>
+                    <tr><td>Любимый цвет</td><td id="resultColor"></td></tr>
+                    <tr><td>Предпочитаемые блюда</td><td id="resultFood"></td></tr>
+                    <tr><td>Любимая кухня</td><td id="resultCuisine"></td></tr>
+                    <tr><td>Любимый напиток</td><td id="resultDrink"></td></tr>
+                    <tr><td>Острота блюда</td><td id="resultSpiciness"></td></tr>
+                    <tr><td>Отзыв</td><td id="resultReview"></td></tr>
+                </table>
+                <select id="userGroup">
+                    <option disabled selected>Выберите пользователя</option>
+                </select>
+                
+            </div>
+        </article>
+        <button id="backButton">Вернуться назад</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Кафе "Japan"</p>
+    </footer>
+</body>
+</html>

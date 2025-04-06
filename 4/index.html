@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Опрос посетителей кафе</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Опрос посетителей кафе</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="#">Главная</a></li>
+                <li><a href="#">Меню</a></li>
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </nav>
+
+        <article class="artic">
+            <h2>Заполните анкету</h2>
+            <div id="form">
+                <form id="surveyForm">
+                    <label>Ваше имя: <input type="text" id="name" required pattern="[A-Za-zА-Яа-яЁё\s]+" placeholder="Введите ваше имя"></label>
+                    
+                    <label>Ваш любимый цвет:
+                        <input type="color" id="favColor">
+                    </label>
+
+                    <fieldset>
+                        <legend>Ваши любимые закуски</legend>
+                        <label><input type="checkbox" name="food" value="Пирожки"> Пирожки</label>
+                        <label><input type="checkbox" name="food" value="Салат"> Салат</label>
+                        <label><input type="checkbox" name="food" value="Круассан"> Круассан</label>
+                    </fieldset>
+
+                    <label>Ваш любимый стиль кухни:
+                        <select id="cuisine">
+                            <optgroup label="Выбор пользователей" id="userGroup"></optgroup>
+                            <option value="Французская">Французская</option>
+                            <option value="Итальянская">Итальянская</option>
+                            <option value="Мексиканская">Мексиканская</option>
+                        </select>
+                    </label>
+
+                    <fieldset>
+                        <legend>Ваш предпочитаемый напиток</legend>
+                        <label><input type="radio" name="drink" value="Какао" checked> Какао</label>
+                        <label><input type="radio" name="drink" value="Лимонад"> Лимонад</label>
+                        <label><input type="radio" name="drink" value="Вода"> Вода</label>
+                    </fieldset>
+
+                    <label>Острота блюда (0 — не остро, 10 — очень остро):
+                        <input type="range" id="spiciness" min="0" max="10">
+                    </label>
+
+                    <label>Ваш отзыв:
+                        <textarea id="review" rows="4" placeholder="Введите ваш отзыв..."></textarea>
+                    </label>
+
+                    <button type="submit">Отправить</button>
+                    <button type="reset">Сбросить</button>
+                </form>
+            </div>
+        </article>
+        <aside>
+            <h2>Дополнительная информация</h2>
+            <p>Скоро здесь появится интересный контент.</p>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Кафе "Japan"</p>
+    </footer>
+</body>
+</html>

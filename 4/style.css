@@ -1,0 +1,153 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #f8f8f8;
+}
+
+header, footer {
+    background-color: #5f3e3e;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+nav {
+    background-color: #9e7474;
+    width: 200px;
+    padding: 20px;
+    color: white;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin-bottom: 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.artic {
+    flex: 1;
+    padding: 20px;
+    background-image: url("resource/background.jpg");
+    color: white;
+    position: relative;
+}
+
+article::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+form {
+    opacity: 0.98;
+    margin: 10px,0px,0px,1px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    color: black;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #ceb2c7;
+    outline: none;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    margin-right: 5px;
+}
+
+button {
+    background-color: #8cb896;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #a4c4aa;
+    transform: scale(1.05);
+}
+
+button:active {
+    background-color: #659a71;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+}
+
+input[type="color"] {
+    height: 40px;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+}
+
+article {
+    flex: 1;
+    padding: 20px;
+    background: url("/resource/background.jpg") no-repeat center center/cover;
+    color: white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+article h2 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#form {
+    position: relative;
+    margin-top: 40px;
+    width: 100%;
+    max-width: 500px;
+}
