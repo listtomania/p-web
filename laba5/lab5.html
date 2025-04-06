@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Мой сайт</title>
+  <link rel="stylesheet" href="lab5.css">
+  <script src="lab5.js" defer></script>
+</head>
+<body>
+    <form class="form" id="FirstForm">
+        <div class="formHeader">
+            <text>Форма для заполнения</text>
+        </div>
+        <div class="form-group">
+            <label for="name">Номер курса:</label>
+            <input type="number"  id="name" name="name" placeholder="Введите номер курса">
+            <result1></result1>
+        </div>
+        <div class="form-group">
+            <label for="faculty">Факультет:</label>
+            <input type="text"  id="faculty" name="faculty" placeholder="Введите Факультет">
+        </div>
+        <div class="form-group">
+            <label for="numberOfStudents"> Кол-во учащихся:</label>
+            <input type="number"  id="numberOfStudents" name="numberOfStudents" placeholder="Введите количество учащихся">
+        </div>
+        <div class="form-group">
+            <label for="email"> Почта:</label>
+            <input type="text"  id="email" name="email" placeholder="Введите вашу почту">
+            <result2></result2>
+        </div>
+        <div class="buttons">
+            <button onclick="delForm()">Очистить форму</button>
+            <button onclick="return handleAddElement(event)">Ввести новую запись</button>
+            <button onclick="return addNewPlace(event)">Добавить новую характеристику</button>
+            <button onclick="return handleSortFornumberOfStudents(event)">Отсортировать записи по количеству</button>
+            <button onclick="return handleReturnToOriginalState(event)">Вернуть таблицу в исходное состояние</button>
+        </div>
+    </form>
+    <div class="form">
+        <div class="formHeader">
+            <text>Удаление записей</text>
+        </div>
+        <div class="form-group">
+            <label for="delId">Введите ID, которое требуется удалить: </label>
+            <select name="id" id="delID">
+                <option></option>
+            </select>
+        </div>
+        <div class="delBut">
+            <button onclick="return handleDeleteElement(event)">Удалить запись с ID в форме</button>
+        </div>
+    </form>
+    <div class="tablet">
+        <div class="formHeader"><text>Таблица данных</text></div>
+        <table class="results-table">
+            <thead>
+                <tr>
+                  
+
+                </tr>
+            </thead>
+            <tbody id="data-table">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
