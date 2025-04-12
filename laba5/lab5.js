@@ -9,15 +9,19 @@ function Course(name, faculty, numberOfStudents, email, ID, phoneNumber) {
 
 const Service = {
     data: JSON.parse(localStorage.getItem('DataArray')) || [],
+    history: JSON.parse(localStorage.getItem('History')) || [],
+    
     addElement: function(name, faculty, numberOfStudents, email, phoneNumber) {
         const newCourse = new Course(name, faculty, numberOfStudents, email, this.getNextID(), phoneNumber);
         this.data.push(newCourse);
         this.saveToStorage();
     },
+    
     deleteElementById: function(ID) {
         this.data = this.data.filter(element => element.ID !== ID);
         this.saveToStorage();
     },
+    
     getNextID: function() {
         if (this.data.length === 0) return 0;
         const ids = this.data.map(item => item.ID).sort((a, b) => a - b);
@@ -26,9 +30,47 @@ const Service = {
         }
         return ids.length;
     },
+    
     saveToStorage: function() {
         localStorage.setItem('DataArray', JSON.stringify(this.data));
     },
+    
+    addHistoryRecord: function(action, id) {
+        const timestamp = new Date().toLocaleString();
+        this.history.push({ action, id, timestamp });
+        this.saveHistoryToStorage();
+        this.renderHistory();
+    },
+    
+    saveHistoryToStorage: function() {
+        localStorage.setItem('History', JSON.stringify(this.history));
+    },
+    
+    renderHistory: function() {
+        const historyContainer = document.querySelector('.history');
+        historyContainer.innerHTML = '<div class="formHeader"><text>История изменений</text></div>';
+        
+        const historyList = document.createElement('div');
+        historyList.className = 'history-list';
+        
+        this.history.slice().reverse().forEach(record => {
+            const recordElement = document.createElement('div');
+            recordElement.className = 'history-record';
+            
+            let actionText = '';
+            if (record.action === 'add') {
+                actionText = `Добавлен курс с ID: ${record.id}`;
+            } else if (record.action === 'delete') {
+                actionText = `Удалён курс с ID: ${record.id}`;
+            }
+            
+            recordElement.textContent = `${record.timestamp} - ${actionText}`;
+            historyList.appendChild(recordElement);
+        });
+        
+        historyContainer.appendChild(historyList);
+    },
+    
     getFilteredAndSortedCourses: function() {
         return this.data
             .filter(it => parseInt(it.numberOfStudents) < 20)
@@ -50,6 +92,8 @@ let newCharacteristicValue = '';
 
 function delForm() {
     document.getElementById("FirstForm").reset();
+    document.querySelector('result1').textContent = '';
+    document.querySelector('result2').textContent = '';
 }
 
 function handleAddElement(event) {
@@ -60,11 +104,13 @@ function handleAddElement(event) {
     const email = document.getElementById('email').value;
     const phoneNumber = newCharacteristicValue;
 
+    document.querySelector('result1').textContent = '';
+    document.querySelector('result2').textContent = '';
+
     if (name === '' || faculty === '' || numberOfStudents === '' || email === '') {
         document.querySelector('result1').textContent = 'Никаких данных не было введено';
         return;
     }
-
     if (parseInt(name) > 6) {
         document.querySelector('result1').textContent = 'Курс не более 6';
         return;
@@ -80,7 +126,9 @@ function handleAddElement(event) {
         return;
     }
 
+    const newId = Service.getNextID();
     Service.addElement(name, faculty, numberOfStudents, email, phoneNumber);
+    Service.addHistoryRecord('add', newId);
     renderResultsTable();
     addIDToDelete();
     delForm();
@@ -91,12 +139,12 @@ function addNewPlace(event) {
     event.preventDefault();
     if (flag) {
         const newPlace = document.createElement('label');
-        newPlace.textContent = 'Новая характеристика: ';
+        newPlace.textContent = 'Номер телефона: ';
         const newPlaceText = document.createElement('input');
         newPlaceText.className = 'input';
         newPlaceText.type = 'tel';
-        newPlaceText.pattern = "\d{2}\d{4}\d{3}";
-        newPlaceText.placeholder = 'Введите характеристику';
+        newPlaceText.pattern = "\\d{2}-\\d{4}-\\d{2}";
+        newPlaceText.placeholder = 'XX-XXXX-XX';
         newPlaceText.addEventListener('input', function() {
             newCharacteristicValue = newPlaceText.value;
         });
@@ -115,114 +163,73 @@ function addNewPlace(event) {
 function handleDeleteElement(event) {
     event.preventDefault();
     const ID = parseInt(document.getElementById('delID').value);
+    if (isNaN(ID)) return;
+    
     Service.deleteElementById(ID);
+    Service.addHistoryRecord('delete', ID);
     renderResultsTable();
     addIDToDelete();
 }
 
 function renderResultsTable() {
-    addIDToDelete();
-    const tbody = document.getElementById('data-table');
-    tbody.innerHTML = '';
-    const tableHeader = document.querySelector('.results-table thead');
-    tableHeader.innerHTML = `
-        <tr>
-            <th>Курс</th>
-            <th>Факультет</th>
-            <th>Кол-во студентов</th>
-            <th>Почта</th>
-            <th>ID</th>
-            <th>телефонный номер</th>
-        </tr>
-    `;
-    if (Service.data.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6">Нет данных для отображения</td>
-            </tr>
-        `;
-        return;
-    }
-
-    Service.data.forEach((item) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.faculty}</td>
-            <td>${item.numberOfStudents}</td>
-            <td>${item.email}</td>
-            <td>${item.ID}</td>
-            <td>${item.phoneNumber}</td>
-        `;
-        tbody.appendChild(row);
+    const tableBody = document.getElementById('data-table');
+    tableBody.innerHTML = '';
+    
+    const thead = document.querySelector('.results-table thead tr');
+    thead.innerHTML = '';
+    
+    if (Service.data.length === 0) return;
+    
+    const headers = Object.keys(Service.data[0]);
+    headers.forEach(header => {
+        if (header !== 'phoneNumber') { 
+            const th = document.createElement('th');
+            th.textContent = header;
+            thead.appendChild(th);
+        }
     });
-}
-
-function renderSortedTable() {
-    const filteredSortedData = Service.getFilteredAndSortedCourses();
-    const tbody = document.getElementById('data-table');
-    tbody.innerHTML = '';
-    const tableHeader = document.querySelector('.results-table thead');
-    tableHeader.innerHTML = `
-        <tr>
-            <th>Курс</th>
-            <th>Факультет</th>
-            <th>Кол-во студентов</th>
-            <th>Почта</th>
-            <th>ID</th>
-            <th>телефонный номер</th>
-        </tr>
-    `;
-    if (filteredSortedData.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6">Нет данных для отображения</td>
-            </tr>
-        `;
-        return;
-    }
-
-    filteredSortedData.forEach((item) => {
+    
+    Service.data.forEach(item => {
         const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.faculty}</td>
-            <td>${item.numberOfStudents}</td>
-            <td>${item.email}</td>
-            <td>${item.ID}</td>
-            <td>${item.phoneNumber}</td>
-        `;
-        tbody.appendChild(row);
+        
+        headers.forEach(header => {
+            if (header !== 'phoneNumber') { 
+                const cell = document.createElement('td');
+                cell.textContent = item[header];
+                row.appendChild(cell);
+            }
+        });
+        
+        tableBody.appendChild(row);
     });
-}
-
-function handleSortFornumberOfStudents(event) {
-    event.preventDefault();
-    renderSortedTable();
-}
-
-function handleReturnToOriginalState(event) {
-    event.preventDefault();
-    renderResultsTable();
 }
 
 function addIDToDelete() {
-    const select = document.getElementById("delID");
-    select.innerHTML = '';
+    const select = document.getElementById('delID');
+    select.innerHTML = '<option></option>';
+    
     Service.data.forEach(item => {
-        const option = document.createElement("option");
+        const option = document.createElement('option');
         option.value = item.ID;
         option.textContent = item.ID;
         select.appendChild(option);
     });
 }
 
-console.log(hoistedVar);
-var hoistedVar = 'value';
-        
-hoistedFunction(); 
-function hoistedFunction() {
-    console.log('Функция вызвана');
+function handleSortFornumberOfStudents(event) {
+    event.preventDefault();
+    Service.data.sort((a, b) => parseInt(a.numberOfStudents) - parseInt(b.numberOfStudents));
+    renderResultsTable();
 }
 
-document.addEventListener('DOMContentLoaded', renderResultsTable);
+function handleReturnToOriginalState(event) {
+    event.preventDefault();
+    Service.data.sort((a, b) => a.ID - b.ID);
+    renderResultsTable();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    renderResultsTable();
+    addIDToDelete();
+    Service.renderHistory();
+});
